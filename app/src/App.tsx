@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import "./css/global.css";
 
 import { Chart } from "react-google-charts";
@@ -15,34 +15,41 @@ interface IOptionsProps {
 
 const App: React.FC = () => {
   const [options, setOptions] = useState<IOptionsProps[]>([]);
-  const [optionsReady, setOptionsReady] = useState(false);
+  const [selectReady, setSelectReady] = useState(false);
+  const [colorSelect, setColorSelect] = useState('#6d6d6d');
 
   useEffect(() => {
     const httpClient: IHttpClient = new AxiosHttpClient();
     const getAllKindsOfMoneys = new GetAllKindsOfMoneysService(httpClient);
-    console.log('realizou a requisição');
     getAllKindsOfMoneys.execute().then(({ data: { symbols: currencies } }) => {
       const parsedCurrencies = Object.values(currencies);
       setOptions(parsedCurrencies);
-      setOptionsReady(true);
+      setSelectReady(true);
     });
+  }, []);
 
+  const handleChangeSelect = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
+    setColorSelect('#3f51b5');
+    const code = event.currentTarget.selectedOptions[0].value;
+    const [,description] = event.currentTarget.selectedOptions[0].innerHTML.split(') ');
+    console.log(description);
   }, []);
 
   return (
     <div className="App">
       <div className="container">
-        <Select defaultValue="default">
-          <option value="default" disabled>
-            Escolha a moeda
-          </option>
-          {optionsReady &&
-            options.map((option, index) => (
+        {selectReady && (
+          <Select defaultValue="default" color={colorSelect} borderColor={colorSelect} onChange={handleChangeSelect}>
+            <option value="default" disabled>
+              Escolha a moeda
+            </option>
+            {options.map((option, index) => (
               <option key={index} value={option.code}>
                 ({option.code}) {option.description}
               </option>
             ))}
-        </Select>
+          </Select>
+        )}
         <Chart
           width={"100%"}
           height={600}
