@@ -20,3 +20,11 @@
   justify-content: center;
   margin-top: 100px;
 }
+
+.waiting {
+  margin-top: 150px;
+  font-size: 22px;
+  font-family: sans-serif;
+  color: #b37730;
+  font-weight: bold;
+}

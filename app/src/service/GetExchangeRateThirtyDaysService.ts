@@ -13,7 +13,7 @@ interface IResponseData {
   base: string;
   start_date: string;
   end_date: string;
-  rates: Array<IRatesProps>;
+  rates: IRatesProps;
 }
 
 interface IRequest {
