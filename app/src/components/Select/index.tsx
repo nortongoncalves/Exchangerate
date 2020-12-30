@@ -1,15 +1,14 @@
-import React, {SelectHTMLAttributes, useCallback, useState, memo} from "react";
+import React, {SelectHTMLAttributes, memo} from "react";
 import './styles.css';
 
-const Select: React.FC<SelectHTMLAttributes<HTMLSelectElement>> = ({ children, ...rest }) => {
-  const [color, setColor] = useState('#6d6d6d');
+interface IProps extends SelectHTMLAttributes<HTMLSelectElement> {
+  color?: string;
+  borderColor?: string;
+}
 
-  const handleChange = useCallback(() => {
-    setColor('#3f51b5');
-  }, []);
-
+const Select: React.FC<IProps> = ({ color, borderColor, children, ...rest }) => {
   return (
-    <select style={{color, borderColor: color}} {...rest} onChange={handleChange}>
+    <select style={{color, borderColor: borderColor}} {...rest} >
       {children}
     </select>
   );
