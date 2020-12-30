@@ -1,5 +1,5 @@
 import IHttpClient, {
-  HttpClientResponse,
+  IHttpClientResponse,
 } from "../provider/HttpClient/models/IHttpClient";
 
 interface IResponseData {
@@ -18,7 +18,7 @@ class GetAllKindsOfMoneysService {
     this.httpClient = httpClient;
   }
 
-  public async execute(): Promise<HttpClientResponse<IResponseData>> {
+  public async execute(): Promise<IHttpClientResponse<IResponseData>> {
     const moneys = await this.httpClient.get<IResponseData>({
       url: "https://api.exchangerate.host/symbols",
     });

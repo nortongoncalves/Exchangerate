@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from 'axios';
 import IHttpClient, {
-  HttpClientParams,
-  HttpClientResponse,
+  IHttpClientParams,
+  IHttpClientResponse,
 } from '../models/IHttpClient';
 
 export default class AxiosHttpClient implements IHttpClient {
@@ -10,7 +10,7 @@ export default class AxiosHttpClient implements IHttpClient {
   public async get<IResponseData>({
     url,
     headers,
-  }: HttpClientParams): Promise<HttpClientResponse<IResponseData> | Error> {
+  }: IHttpClientParams): Promise<IHttpClientResponse<IResponseData> | Error> {
     try {
       this.axiosResponse = await axios.get(url, {
         headers,

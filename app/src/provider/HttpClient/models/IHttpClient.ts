@@ -1,4 +1,4 @@
-export interface HttpClientParams {
+export interface IHttpClientParams {
   url: string;
   body?: JSON;
   headers?: {
@@ -6,7 +6,7 @@ export interface HttpClientParams {
   };
 }
 
-export interface HttpClientResponse<IResposeData> {
+export interface IHttpClientResponse<IResposeData> {
   data: IResposeData;
   status: number;
   statusText: string;
@@ -16,6 +16,6 @@ export interface HttpClientResponse<IResposeData> {
 
 export default interface IHttpClient {
   get: <IResposeData>(
-    params: HttpClientParams,
-  ) => Promise<HttpClientResponse<IResposeData> | Error>;
+    params: IHttpClientParams,
+  ) => Promise<IHttpClientResponse<IResposeData> | Error>;
 }
