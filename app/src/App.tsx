@@ -7,6 +7,7 @@ import Select from "./components/Select";
 import GetAllKindsOfMoneysService from "./service/ GetAllKindsOfMoneysService";
 import IHttpClient from "./provider/HttpClient/models/IHttpClient";
 import AxiosHttpClient from "./provider/HttpClient/implementations/AxiosHttpClient";
+import GetExchangeRateThirtyDaysService from './service/GetExchangeRateThirtyDaysService';
 
 interface IOptionsProps {
   code: string;
@@ -31,8 +32,15 @@ const App: React.FC = () => {
   const handleChangeSelect = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
     setColorSelect('#3f51b5');
     const code = event.currentTarget.selectedOptions[0].value;
-    const [,description] = event.currentTarget.selectedOptions[0].innerHTML.split(') ');
-    console.log(description);
+
+    const httpClient: IHttpClient = new AxiosHttpClient();
+    const getExchangeRateThirtyDays = new GetExchangeRateThirtyDaysService(httpClient);
+    getExchangeRateThirtyDays.execute({
+      base: 'BRL',
+      symbol: code,
+    }).then(({data}) => {
+      console.log(data);
+    });
   }, []);
 
   return (
@@ -56,28 +64,27 @@ const App: React.FC = () => {
           chartType="LineChart"
           loader={<div>Loading Chart</div>}
           data={[
-            [
-              { type: "number", label: "x" },
-              { type: "number", label: "values" },
-              { id: "i0", type: "number", role: "interval" },
-              { id: "i1", type: "number", role: "interval" },
-              { id: "i2", type: "number", role: "interval" },
-              { id: "i2", type: "number", role: "interval" },
-              { id: "i2", type: "number", role: "interval" },
-              { id: "i2", type: "number", role: "interval" },
-            ],
-            [1, 100, 90, 110, 85, 96, 104, 120],
-            [2, 120, 95, 130, 90, 113, 124, 140],
-            [3, 130, 105, 140, 100, 117, 133, 139],
-            [4, 90, 85, 95, 85, 88, 92, 95],
-            [5, 70, 74, 63, 67, 69, 70, 72],
-            [6, 30, 39, 22, 21, 28, 34, 40],
-            [7, 80, 77, 83, 70, 77, 85, 90],
-            [8, 100, 90, 110, 85, 95, 102, 110],
+            ['x', 'dogs'],
+            [0, 0],
+            [1, 10],
+            [2, 23],
+            [3, 17],
+            [4, 18],
+            [5, 9],
+            [6, 11],
+            [7, 27],
+            [8, 33],
+            [9, 40],
+            [10, 32],
+            [11, 35],
           ]}
           options={{
-            intervals: { style: "sticks" },
-            legend: "none",
+            hAxis: {
+              title: 'Dates',
+            },
+            vAxis: {
+              title: 'Rates',
+            },
           }}
         />
       </div>
